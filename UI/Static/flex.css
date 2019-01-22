@@ -1,0 +1,41 @@
+
+@media (min-width: 769px) {
+  .main-header,.main-nav,.banner,.row,.meetup{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .main-nav{
+    margin-left: auto;
+    }
+
+  .banner{
+    flex-direction: column;
+    align-items:center;
+    flex-wrap: wrap;
+  }
+
+  .meetup{
+    flex: 1;
+  }
+}
+
+@media (min-width: 1025px) {
+  .main-header,.main-nav,.banner,.row,.meetup{
+    display: flex;
+  }
+
+  .main-nav{
+    justify-content: space-between;
+  }
+
+  .banner{
+    align-items:center;
+  }
+  
+  .meetup{
+    flex: 1;
+    flex-direction: column;
+  }
+
+}
