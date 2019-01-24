@@ -31,8 +31,6 @@ img {
 	max-width: 100%;
 }
 
-
-
 .name {
 	font-size: 1.35em;
 	margin: 0;
@@ -40,8 +38,7 @@ img {
 .main-nav {
 	margin-top: 5px;
 }
-.name a,
-.main-nav a {
+.name a,.main-nav a {
 	text-align: center;
 	display: block;
 	padding: 10px 15px;
@@ -79,7 +76,7 @@ img {
 	margin-top: 30px;
 }
 
-.button {
+.banner button {
 	background-color: red;
 	border: none;
 	color: white;
@@ -95,7 +92,7 @@ img {
   }
   
 
-.button:hover{
+.banner button:hover{
 	background-color: #F93535;
 }
 
@@ -117,6 +114,52 @@ img {
 }
 
 
+input[type=text], input[type=password] {
+	width: 100%;
+	padding: 15px;
+	margin: 5px 0 22px 0;
+	display: inline-block;
+	border: none;
+	background: #f1f1f1;
+  }
+  
+input[type=text]:focus, input[type=password]:focus {
+	background-color: #ddd;
+	outline: none;
+  }
+  
+hr {
+	border: 1px solid #f1f1f1;
+	margin-bottom: 25px;
+  }
+  
+
+button {
+	background-color: #4CAF50;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	opacity: 0.9;
+  }
+  
+button:hover {
+	opacity:1;
+  }
+  
+.signupbtn {
+	float: left;
+	width: 100%;
+  }
+
+.container {
+	padding: 16px;
+	box-sizing: border-box;
+	width: 50%;
+	background-color: #A335A4;
+  }
+	
 @media (min-width: 769px) {
 	.main-header,
 	.row {
