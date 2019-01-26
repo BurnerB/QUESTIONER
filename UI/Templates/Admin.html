@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Admin</title>
+	<link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../Static/style.css">
+	<link rel="stylesheet" href="../Static/flex.css">
+</head>
+<body>
+	
+	<header class="main-header">
+        <h1 class="name"><a href="index.html">MeetUps</a></h1>
+        
+		<ul class="main-nav">
+            <li><a href="#">My Profile</a></li>
+			<li><a href="index.html">Home</a></li>
+			<li><a href="#">About</a></li>
+		</ul>
+    </header>
+    
+    <div class="banner">
+            <img class="logo" src="../Static/logo.png" alt="logo">
+            <h1 class="headline">Would you like to create a meetup?</h1>
+            <span class="tagline">We'll help you make it happen.</span>
+        </div>
+    
+    <div class="create_meetup">
+            <label for="Image"><b>Give your meetup an image</b></label>
+            <input type="file" id="myFile">
+            <br>
+            <label for="Title"><b>What will be the title of your meetup?</b></label>
+            <input type="text" placeholder="Enter Username" name="title" required>
+
+            <label for="description"><b>Describe who  should join and what your meetup is about</b></label>
+            <br>
+            <textarea class = "myTextArea" rows = "10" cols = "80"></textarea>
+            <br>
+            <button class="button" href="#">Create</button>
+  
+    </div>
+	<footer class="main-footer">
+		<span>&copy;2019 barnabykamau@gmail.com.</span>
+	</footer>
+	
+</body>
+</html>

@@ -24,12 +24,16 @@
   .meetup{
     display: inline-flex;
     flex: auto;
-    
+ 
+  }
+  .container,.create_meetup{
+    display: inline-flex;
+    flex-wrap: wrap;
   }
 }
 
 @media (min-width: 1025px) {
-  .main-header,.main-nav,.banner,.row,.meetup,.container{
+  .main-header,.main-nav,.banner,.row,.meetup,.container, .create_meetup{
     display: flex;
   }
 
@@ -48,9 +52,10 @@
     flex-direction: column;
   }
 
-  .container{
+  .container, .create_meetup{
     flex-direction: column;
     margin: auto;
+    width: 50%;
   }
 
 }
