@@ -24,6 +24,7 @@
   .meetup{
     display: inline-flex;
     flex: auto;
+    height:100px;
  
   }
   .container,.create_meetup{
@@ -33,7 +34,7 @@
 }
 
 @media (min-width: 1025px) {
-  .main-header,.main-nav,.banner,.row,.meetup,.container, .create_meetup{
+  .main-header,.main-nav,.banner,.row,.meetup,.container, .create_meetup, .info{
     display: flex;
   }
 
@@ -42,13 +43,19 @@
   }
 
   .row{
-    flex-wrap: wrap;
+    flex-wrap:wrap;
+    align-items: center;
+    justify-content: center;
   }
   .banner{
     align-items:center;
+    height: 40%;
   }
   
   .meetup{
+    flex-grow: 1;
+    flex:1 1 30%;
+    height: 250px;
     flex-direction: column;
   }
 
@@ -56,6 +63,11 @@
     flex-direction: column;
     margin: auto;
     width: 50%;
+    justify-content: center;
+  }
+
+  .description{
+    width: 40%;
   }
 
 }
