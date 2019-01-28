@@ -204,7 +204,6 @@ button:hover {
 		border-radius: .35em;
 		margin: 0 .5em .8em;
 	}
-}
 
 .dropup {
 	position: relative;
@@ -236,7 +235,16 @@ button:hover {
 .dropup:hover .dropbtn {
 	background-color: #2980B9;
 	}
+
+.fa {
+		font-size: 50px;
+		cursor: pointer;
+		user-select: none;
+	}
 	
+.fa:hover {
+		color: darkblue;
+}
 
 @media (min-width: 769px) {
 	.main-header,
