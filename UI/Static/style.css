@@ -1,5 +1,4 @@
 
-
 * {
 	box-sizing: border-box;
 }
@@ -28,9 +27,9 @@ a {
 	text-decoration: none;
 }
 img {
-	max-width: 100%;
-}
-
+	object-fit: cover;
+  }
+  
 .name {
 	font-size: 1.35em;
 	margin: 0;
@@ -151,7 +150,93 @@ button:hover {
 	background-color: #A335A4;
   }
 	
+.meetup:hover{
+	transform: scale(1.1);
+	transition: all ease 500ms;
+  }
 
+#one{
+	background-image:url(../Static/oop.jpeg)
+}
+
+#two{
+	background-image:url(../Static/two.jpg)
+
+}
+
+#three{
+	background-image:url(../Static/three.jpg)
+}
+
+#four{
+	background-image:url(../Static/four.jpeg)
+}
+
+#five{
+	background-image:url(../Static/five.jpg)
+}
+
+#six{
+	background-image:url(../Static/six.jpg)
+}
+
+.meetup p,.meetup h3{
+	color:white;
+}
+
+#specific_meetup{
+	background-image:url(../Static/oop.jpeg)
+}
+.description{
+	padding: 16px;
+	box-sizing: border-box;
+	padding: 1em;
+	background: #BBB5B5;
+	border-radius: .35em;
+	margin: 0 .5em .8em;
+}
+
+.question{
+		padding: 16px;
+		box-sizing: border-box;
+		padding: 1em;
+		background:#D3D3D3;
+		border-radius: .35em;
+		margin: 0 .5em .8em;
+	}
+}
+
+.dropup {
+	position: relative;
+	display: inline-block;
+  }
+  
+.dropup-content {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 160px;
+	bottom: -95px;
+	z-index: 1;
+  }
+  
+.dropup-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+  }
+  
+.dropup-content a:hover {background-color: #ccc}
+  
+.dropup:hover .dropup-content {
+	display: block;
+  }
+  
+.dropup:hover .dropbtn {
+	background-color: #2980B9;
+	}
+	
 
 @media (min-width: 769px) {
 	.main-header,
