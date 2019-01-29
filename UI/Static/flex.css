@@ -34,7 +34,7 @@
 }
 
 @media (min-width: 1025px) {
-  .main-header,.main-nav,.banner,.row,.meetup,.container, .create_meetup, .info{
+  .main-header,.main-nav,.banner,.row,.meetup,.container, .create_meetup, .info,.card, .details, .questions{
     display: flex;
   }
 
@@ -69,5 +69,11 @@
   .description{
     width: 40%;
   }
+  .card{
+    flex-direction: column;
+  }
 
+  .questions{
+    flex-direction: column;
+  }
 }
