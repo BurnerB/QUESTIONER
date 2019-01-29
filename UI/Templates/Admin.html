@@ -3,7 +3,8 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Admin</title>
-	<link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../Static/style.css">
 	<link rel="stylesheet" href="../Static/flex.css">
 </head>
@@ -24,21 +25,43 @@
             <h1 class="headline">Would you like to create a meetup?</h1>
             <span class="tagline">We'll help you make it happen.</span>
         </div>
-    
-    <div class="create_meetup">
-            <label for="Image"><b>Give your meetup an image</b></label>
-            <input type="file" id="myFile">
-            <br>
-            <label for="Title"><b>What will be the title of your meetup?</b></label>
-            <input type="text" placeholder="Enter Title..." name="title" required>
+        
+        <div class="meetups">
+            <div class="create_meetup">
+                    <label for="Image"><b>Give your meetup an image</b></label>
+                    <input type="file" id="myFile">
+                    <br>
+                    <label for="Title"><b>What will be the title of your meetup?</b></label>
+                    <input type="text" placeholder="Enter Title..." name="title" required>
 
-            <label for="description"><b>Describe who  should join and what your meetup is about</b></label>
-            <br>
-            <textarea class = "myTextArea" rows = "10" cols = "80"></textarea>
-            <br>
-            <button class="button" href="#">Create</button>
-  
-    </div>
+                    <label for="description"><b>Describe who  should join and what your meetup is about</b></label>
+                    <br>
+                    <textarea class = "myTextArea" rows = "10" cols = "80"></textarea>
+                    <br>
+                    <button class="button" href="#">Create</button>
+        
+            </div>
+
+            <div class="delete-meetup">
+                <h4>Your Meetups</h4>
+                <div class="meetup" id="five">
+                    <a href="#">
+                    <i class="fa fa-trash"></i>
+                    <h3>Data Scientists Devs</h3>
+                    <p>Friday 26th January 2019</p>
+                    </a>		
+                </div>
+
+                <div class="meetup" id="six">
+                    <a href="#">
+                    <i class="fa fa-trash"></i>
+                    <h3>Cyber security</h3>
+                    <p>Friday 26th January 2019</p>
+                    </a>	
+                </div>
+            </div>
+
+        </div>
 	<footer class="main-footer">
 		<span>&copy;2019 barnabykamau@gmail.com.</span>
 	</footer>
