@@ -34,7 +34,7 @@
 }
 
 @media (min-width: 1025px) {
-  .main-header,.main-nav,.banner,.row,.meetup,.container, .create_meetup, .info,.card, .details, .questions{
+  .main-header,.main-nav,.banner,.row,.meetup,.container,.meetups, .info,.card, .details, .questions{
     display: flex;
   }
 
