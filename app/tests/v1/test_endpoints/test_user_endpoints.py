@@ -32,7 +32,7 @@ class TestUserEndpoints(unittest.TestCase):
 
     def test_empty_first_name(self):
         user1 ={
-	         "firstname":" ",
+	         "firstname":"",
 	         "lastname":"Doe",
 	         "email":"johndoe@gmail.com",
 	         "phone_number":"0727988632",
@@ -79,7 +79,7 @@ class TestUserEndpoints(unittest.TestCase):
                 "firstname":"John",
                 "lastname":"Doe",
                 "email":"johndoe@gmail.com",
-                "phone_number":" ",
+                "phone_number":"",
                 "username":"johny",
                 "password":"baba123",
                 "confirmpassword":"baba123"
@@ -91,7 +91,7 @@ class TestUserEndpoints(unittest.TestCase):
 
 
     def test_empty_username_sign_up(self):
-        user2 ={
+        user ={
                 "firstname":"John",
                 "lastname":"Doe",
                 "email":"johndoe@gmail.com",
@@ -101,25 +101,25 @@ class TestUserEndpoints(unittest.TestCase):
                 "confirmpassword":"baba123"
             }
         """test empty username signup """
-        response = self.post_data_signup(user2)
+        response = self.post_data_signup(user)
         self.assertEqual(response.status_code, 400)
     
-     def test_empty_password_sign_up(self):
-        user1 ={
+    def test_empty_password_sign_up(self):
+        user ={
 	         "firstname":"John",
 	         "lastname":"Doe",
 	         "email":"johndoe@gmail.com",
 	         "phone_number":"0727988632",
 	         "username":"johny",
-	         "password":" ",
+	         "password":"",
 	         "confirmpassword":"baba123"
 }
         """test empty password signup """
-        response = self.post_data_signup(user1)
+        response = self.post_data_signup(user)
         self.assertEqual(response.status_code, 400)
     
-     def test_empty_confirm_password_sign_up(self):
-        user1 ={
+    def test_empty_confirm_password_sign_up(self):
+        user ={
 	         "firstname":"John",
 	         "lastname":"Doe",
 	         "email":"johndoe@gmail.com",
@@ -129,7 +129,7 @@ class TestUserEndpoints(unittest.TestCase):
 	         "confirmpassword":""
 }
         """test empty confirm password signup """
-        response = self.post_data_signup(user1)
+        response = self.post_data_signup(user)
         self.assertEqual(response.status_code,400)
 
 
@@ -154,4 +154,4 @@ class TestUserEndpoints(unittest.TestCase):
 
 
 if __name__ == "__main__":
-unittest.main()
+    unittest.main()
