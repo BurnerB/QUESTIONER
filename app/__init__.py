@@ -1,7 +1,7 @@
 '''Creating app'''
 import os
 from flask import Flask
-from instance.config import app_config
+from app.instance.config import app_config
 """importing the configurations from the .config file which is in the instance folder"""
 
 def create_app(config_name):
