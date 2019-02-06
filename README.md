@@ -1,5 +1,8 @@
 ### QUESTIONER
 
+[![Build Status](https://travis-ci.org/BurnerB/QUESTIONER.svg?branch=develop)](https://travis-ci.org/BurnerB/QUESTIONER)
+
+[![Coverage Status](https://coveralls.io/repos/github/BurnerB/QUESTIONER/badge.svg?branch=develop)](https://coveralls.io/github/BurnerB/QUESTIONER?branch=develop) 
 
 ### Endpoints covered
 | Method        | Endpoint                 | Description|
