@@ -1,5 +1,6 @@
 ### QUESTIONER
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/16fb1482d8974164b35f9265c11c04b2)](https://app.codacy.com/app/BurnerB/QUESTIONER?utm_source=github.com&utm_medium=referral&utm_content=BurnerB/QUESTIONER&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/BurnerB/QUESTIONER.svg?branch=develop)](https://travis-ci.org/BurnerB/QUESTIONER)
 [![Coverage Status](https://coveralls.io/repos/github/BurnerB/QUESTIONER/badge.svg?branch=develop)](https://coveralls.io/github/BurnerB/QUESTIONER?branch=develop) 
 
