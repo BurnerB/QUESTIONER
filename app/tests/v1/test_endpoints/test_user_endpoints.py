@@ -3,7 +3,7 @@ import json
 from app import create_app
 
 class TestUserEndpoints(unittest.TestCase):
-    """The set up method iscalled for each test method"""
+    """The set up method is called for each test method"""
     """This is the same for teardown"""
     def setUp(self):
         """Performs variable definition and app initialization"""
@@ -17,7 +17,7 @@ class TestUserEndpoints(unittest.TestCase):
         return self.client.post(path,data=json.dumps(data),headers={},content_type="application/json")
 
     def test_good_sign_up(self):
-        user1 ={
+        user ={
 	         "firstname":"John",
 	         "lastname":"Doe",
 	         "email":"johndoe@gmail.com",
@@ -27,11 +27,11 @@ class TestUserEndpoints(unittest.TestCase):
 	         "confirmpassword":"baba123"
 }
         """test good user signup """
-        response = self.post_data_signup(user1)
-        self.assertEqual(response.status_code, 201)
+        response = self.post_data_signup(user)
+        self.assertEqual(response.status_code,201)
 
     def test_empty_first_name(self):
-        user1 ={
+        user ={
 	         "firstname":"",
 	         "lastname":"Doe",
 	         "email":"johndoe@gmail.com",
@@ -41,13 +41,13 @@ class TestUserEndpoints(unittest.TestCase):
 	         "confirmpassword":"baba123"
 }
         """test empty firstname signup """
-        response = self.post_data_signup(user1)
+        response = self.post_data_signup(user)
         self.assertEqual(response.status_code,400)
 
     def test_empty_last_name(self):
-        user1 ={
+        user ={
 	         "firstname":"John",
-	         "lastname":"  ",
+	         "lastname":"",
 	         "email":"johndoe@gmail.com",
 	         "phone_number":"0727988632",
 	         "username":"johny",
@@ -55,8 +55,8 @@ class TestUserEndpoints(unittest.TestCase):
 	         "confirmpassword":"baba123"
 }
         """test empty lastname signup """
-        response = self.post_data_signup(user1)
-        self.assertEqual(response.status_code, 201)
+        response = self.post_data_signup(user)
+        self.assertEqual(response.status_code, 400)
 
         
     
@@ -132,6 +132,20 @@ class TestUserEndpoints(unittest.TestCase):
         response = self.post_data_signup(user)
         self.assertEqual(response.status_code,400)
 
+    def test_confirm_password_not_match(self):
+        user ={
+	         "firstname":"John",
+	         "lastname":"Doe",
+	         "email":"johndoe@gmail.com",
+	         "phone_number":"0727988632",
+	         "username":"johny",
+	         "password":"baba123",
+	         "confirmpassword":"baba124"
+}
+        """test confirm password not match password  """
+        response = self.post_data_signup(user)
+        self.assertEqual(response.status_code,400)
+
 
     def test_empty_username_log_in(self):
         user ={
@@ -148,7 +162,7 @@ class TestUserEndpoints(unittest.TestCase):
                 "username":"johny",
                 "password":"",
             }
-        """test empty email onsignup """
+        """test empty email on signup """
         response = self.post_data_login(user)
         self.assertEqual(response.status_code, 400)
 
