@@ -1,10 +1,13 @@
 from flask import Flask, Blueprint, request ,jsonify ,make_response
 import datetime
+from flask_jwt_extended import create_access_token
 from werkzeug.security import generate_password_hash, check_password_hash
+
 
 """ local imports"""
 from app.api.v1.models.user_models import User
 from app.api.v1.utils.validators import Validators
+from instance.config import Config
 
 Validate = Validators()
 
@@ -123,11 +126,17 @@ def signIn_user():
                                 }),404
 
 
+        """ create token"""
+        # public_id = user_value[0]['public_id']
+        access_token = create_access_token(identity = username)
+
+        
         """ method checks if key values pair in associated with the username given ,match with the password given"""
         user_value = User.get_a_user_by_username(username)
         if check_password_hash(user_value[0]["password"], password):
                 return make_response(jsonify({"status" : 200 ,
-                                              "message":"User logged in successfully"}),200)
+                                              "message":"User logged in successfully",
+                                              "access_token": access_token}),200)
                 
         return make_response(jsonify({"status":401,
                                         "error":" Password not accepted"}),401)
