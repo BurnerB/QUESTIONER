@@ -4,7 +4,6 @@ import os
 
 class Config():
     """Parent configuration."""
-
     DEBUG = False
     TESTING = False
     SECRET_KEY = os.getenv('SECRET_KEY')
