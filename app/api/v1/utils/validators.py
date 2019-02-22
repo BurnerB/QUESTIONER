@@ -1,7 +1,7 @@
 """Validators Module"""
 import re
 from app.api.v1.endpoints.user_endpoints import User
-
+# from app.api.v1.endpoints.meetup_endpoints import Meetup
 
 class Validators():
     """Validators class"""
