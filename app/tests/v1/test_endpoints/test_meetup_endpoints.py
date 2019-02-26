@@ -37,7 +37,7 @@ class TestMeetupEndpoints(unittest.TestCase):
         meetup ={
                     "topic":"Bio",
                     "location":"Nairobi",
-                    "happening_On": "27/7/2019",
+                    "happening_On": "27/05/2019",
                     "tags" : "data science",
                     "image" : "an_image.png"
         }
@@ -49,7 +49,7 @@ class TestMeetupEndpoints(unittest.TestCase):
         meetup ={
                     "topic":"",
                     "location":"Nairobi",
-                    "happening_On": "27/7/2019",
+                    "happening_On": "27/05/2019",
                     "tags" : "data science",
                     "image" : "an_image.png"
         }
@@ -61,7 +61,7 @@ class TestMeetupEndpoints(unittest.TestCase):
         meetup ={
                     "topic":"Bio",
                     "location":"",
-                    "happening_On": "27/7/2019",
+                    "happening_On": "27/05/2019",
                     "tags" : "data science",
                     "image" : "an_image.png"
         }
@@ -85,7 +85,7 @@ class TestMeetupEndpoints(unittest.TestCase):
         meetup ={
                     "topic":"Bio",
                     "location":"Nairobi",
-                    "happening_On": "27/7/2019",
+                    "happening_On": "27/05/2019",
                     "tags" :"",
                     "image" : "an_image.png"
         }
@@ -97,7 +97,7 @@ class TestMeetupEndpoints(unittest.TestCase):
         meetup = {
                     "topic":"Bio",
                     "location":"Nairobi",
-                    "happening_On": "27/7/2019",
+                    "happening_On": "27/05/2019",
                     "tags" : "data science",
                     "image" :""
 
@@ -129,7 +129,67 @@ class TestMeetupEndpoints(unittest.TestCase):
     #     meetup_one=self.delete_data(1)
     #     """Test  delete a meetup that doesnt exist"""
     #     self.assertEqual(meetup_one.status_code,404)
+
+    def test_invalid_topic(self):
+        meetup ={
+                    "topic":"Bi%^",
+                    "location":"Nairobi",
+                    "happening_On": "27-05-2019",
+                    "tags" : "data science",
+                    "image" : "an_image.png"
+        }
+        """test invalid topic"""
+        response = self.post_data(meetup)
+        self.assertEqual(response.status_code,400)
     
+    def test_invalid_location(self):
+        meetup ={
+                    "topic":"Bio",
+                    "location":"Nairobi#",
+                    "happening_On": "27/05/2019",
+                    "tags" : "data science",
+                    "image" : "an_image.png"
+        }
+        """test invalid location"""
+        response = self.post_data(meetup)
+        self.assertEqual(response.status_code,400)
+
+    # def test_invalid_happeningOn(self):
+    #     meetup ={
+    #                 "topic":"Bio",
+    #                 "location":"Nairobi",
+    #                 "happening_On": "27/05/2019",
+    #                 "tags" : "data science",
+    #                 "image" : "an_image.png"
+    #     }
+    #     """test invalid happening On date"""
+    #     response = self.post_data(meetup)
+    #     self.assertEqual(response.status_code,400)
+    
+    # def test_past_date(self):
+    #     meetup ={
+    #                 "topic":"Bio",
+    #                 "location":"Nairobi",
+    #                 "happening_On": "15/03/2017",
+    #                 "tags" : "data science",
+    #                 "image" : "an_image.png"
+    #     }
+    #     """test invalid happening On date"""
+    #     response = self.post_data(meetup)
+    #     self.assertEqual(response.status_code,400)
+    
+    # def test_invalid_image(self):
+    #     meetup ={
+    #                 "topic":"Bio",
+    #                 "location":"Nairobi",
+    #                 "happening_On": "27/7/2019",
+    #                 "tags" : "data science",
+    #                 "image" : "an_image.ne"
+    #     }
+    #     """test invalid image"""
+    #     response = self.post_data(meetup)
+    #     self.assertEqual(response.status_code,400)
+
     def tearDown(self):
         meetup_list =[]
 
