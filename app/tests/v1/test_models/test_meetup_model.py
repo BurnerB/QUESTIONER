@@ -17,7 +17,7 @@ class TestMeetup(unittest.TestCase):
         
         topic = "Bio"
         location = "Nairobi"
-        happening_On = "27/3/2019"
+        happening_On = "2019/02/27"
         tags = "data science"
         image = "an_image.png"
         meetup = Meetup.create_meetup(topic ,location , happening_On,tags ,image)
