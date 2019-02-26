@@ -29,7 +29,6 @@ class Meetup(object):
         for meetup in self.db:
             if meetup["meetup_id"] == meetup_id:
                 return meetup
-        return False
     
     def delete_meetup(self, meetup_id):
         meetup = self.get_meetup(meetup_id)
