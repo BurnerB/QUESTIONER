@@ -7,7 +7,7 @@ from app.api.v1.utils.validators import Validators
 Validators = Validators()
 
 """ local imports"""
-from app.api.v1.models.meetup_models import meetup_list, Meetup
+from app.api.v1.models.meetup_models import Meetup
 MeetupModel = Meetup()
 from instance.config import Config
 
@@ -15,7 +15,7 @@ version_1 = Blueprint("Meetups" ,__name__)
 
 
 @version_1.route("/meetups",methods=["POST"])
-@jwt_required
+# @jwt_required
 def create_meetup():
     try:
         data=request.get_json()
@@ -64,7 +64,7 @@ def create_meetup():
 @version_1.route("/meetups/upcoming", methods=["GET"])
 def get_upcoming_meetups():
     """Method that gets all meetups"""
-    if meetup_list == []:
+    if MeetupModel.db == []:
         return jsonify({"Message":"Meetup list is empty"}),404
     response = MeetupModel.get_upcoming_meetups()
     return jsonify({"Meetups":response}),200
@@ -77,11 +77,11 @@ def get_specific_meetup(meetup_id):
         return jsonify({"message":"meetup doesn't exist"}),404
     return jsonify({'Question':meetup}),200
 
-@version_1.route('/meetups/<int:question_id> ',methods=['DELETE'])
+@version_1.route('/meetups/<int:meetup_id>/delete',methods=['DELETE'])
 def delete_meetup(meetup_id):
-    if MeetupModel.get_meetup(meetup_id) == None:
+    meetup = MeetupModel.get_meetup(meetup_id)
+    if meetup == None:
         return jsonify({"message":"meetup doesn't exist"}),404
     if MeetupModel.delete_meetup(meetup_id) == False:
         return jsonify({"message":"meetup doesn't exist"}),404
     return jsonify({"message":"Successfully deleted meetup"}),200
-    
