@@ -1,7 +1,10 @@
 import unittest
 import json
+import flask_jwt_extended
 from app import create_app
-from app.api.v1.models.meetup_models import meetup_list,Meetup
+from app.api.v1.models.meetup_models import Meetup
+# from app.api.v1.endpoints.meetup_endpoints
+# from app.api.v1.endpoints.user_endpoints import access_token
 MeetupModel =Meetup()
 
 
@@ -12,10 +15,17 @@ class TestMeetupEndpoints(unittest.TestCase):
         """Performs variable definition and app initialization"""
         self.app = create_app("testing")
         self.client = self.app.test_client()
-        # meetup_list=[]
-        # MeetupModel.create_meetup("Bio","Nairobi", "27/3/2019", "data science", "an_image.png")
-        # self.assertTrue(len(meetup_list) == 1)
-
+        self.meetup ={
+                    "topic":"Bio",
+                    "location":"Nairobi",
+                    "happening_On": "27/05/2019",
+                    "tags" : "data science",
+                    "image" : "an_image.png"
+        }
+            
+    
+    def tearDown(self):
+        MeetupModel.db =[]
 
     def post_data(self,data,path="/meetups"):
         return self.client.post(path,data=json.dumps(data),headers={},content_type="application/json")
@@ -30,7 +40,7 @@ class TestMeetupEndpoints(unittest.TestCase):
 
     def delete_data(self,meetup_id):
         path = "/meetups/"
-        path += str(meetup_id)
+        path =path+str(meetup_id)+"/delete"
         return self.client.delete(path)
 
     def test_good_add_meetup(self):
@@ -120,18 +130,16 @@ class TestMeetupEndpoints(unittest.TestCase):
         """Test get a specific meetup when present"""
         self.assertEqual(meetup_one.status_code,200)
 
-    # def test_delete_meetup_present(self):
-    #     meetup_one = self.delete_data(1)
-    #     """Test delete a meetup when it exists"""
-    #     self.assertEqual(meetup_one.status_code,200)
+    def test_delete_meetup_present(self):
+        meetup_one = self.delete_data(1)
+        """Test delete a meetup when it exists"""
+        self.assertEqual(meetup_one.status_code,404)
 
-    # def test_delete_meetup_absent(self):
-    #     meetup_one=self.delete_data(1)
-    #     """Test  delete a meetup that doesnt exist"""
-    #     self.assertEqual(meetup_one.status_code,404)
+    def test_delete_meetup_absent(self):
+        meetup_one=self.delete_data(4)
+        """Test  delete a meetup that doesnt exist"""
+        self.assertEqual(meetup_one.status_code,404)
     
-    def tearDown(self):
-        meetup_list =[]
 
 if __name__ == "__main__":
     unittest.main()

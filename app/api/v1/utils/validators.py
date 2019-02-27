@@ -1,5 +1,9 @@
 """Validators Module"""
 import re
+import datetime
+import imghdr
+import time
+
 from app.api.v1.endpoints.user_endpoints import User
 # from app.api.v1.endpoints.meetup_endpoints import Meetup
 
@@ -44,3 +48,28 @@ class Validators():
             if user["username"] == username:
                 return True
         return False
+
+    def check_topic(self, topic):
+        """ Validate meetup topic"""
+        regex ="^[a-zA-Z]{3,}$"
+        return re.match(regex, topic)
+    
+    def check_location(self, location):
+        """validate meetup location"""
+        regex = "^[a-zA-Z0-9]{2,}$"
+        return re.match(regex, location)
+    
+    # def check_hapenningOn_date(self, happening_On):
+    #     """Validate date when meetup is happening on"""
+    #     today = datetime.date.today()
+    #     # today2=time.strptime("today","%d-%m-%Y")
+    #     date_enter =datetime.datetime.strptime("happening_On","%d/%m/%Y")
+    #     if date_enter < today:
+    #         return False
+    #     return True 
+    
+    
+    def check_image(self, image):
+        """Validate image of meetup created"""
+        type=imghdr.what('image')
+        return type
