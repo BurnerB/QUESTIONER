@@ -1,8 +1,10 @@
 """Test user model file"""
 import unittest
-from app.api.v1.models.meetup_models import Meetup
+from app.api.v1.models.meetup_models import Meetup,RSVP
 
 MeetupModel = Meetup()
+
+RSVPmodel = RSVP()
 
 
 class TestMeetup(unittest.TestCase):
@@ -42,7 +44,12 @@ class TestMeetup(unittest.TestCase):
         self.assertEqual(1,len(MeetupModel.db))
         result = MeetupModel.delete_meetup(1)
         self.assertTrue(result)
-
+    
+    def test_add_Rsvp(self):
+        """Test if a user can rsvp to a meetup"""
+        Answer= "Yes"                    
+        result = RSVPmodel.addRsvp(Answer)
+        self.assertEqual(1,len(RSVPmodel.rsvps))
 
     
     
