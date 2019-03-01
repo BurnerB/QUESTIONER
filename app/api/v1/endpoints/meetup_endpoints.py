@@ -85,3 +85,39 @@ def delete_meetup(meetup_id):
     if MeetupModel.delete_meetup(meetup_id) == False:
         return jsonify({"message":"meetup doesn't exist"}),404
     return jsonify({"message":"Successfully deleted meetup"}),200
+
+@version_1.route('/meetups/<int:meetup_id>/rsvps', methods=['POST'])
+def add_rsvp(meetup_id):
+
+    try:
+        data = request.get_json()
+        answer = data["answer"]
+         
+    except Exception as e:
+        return jsonify({"status":201,
+        "error" :"Invalid {} key field".format(e)
+        }),400
+
+    """Check if the meetup exists"""
+    if not MeetupModel.get_meetup(meetup_id):
+        return jsonify({"status":404,
+                        "Message":"The meetup does not exist"}),404
+    
+    responses = ["Yes","No","Maybe"]
+    if answer not in responses:
+        return make_response(jsonify({'status': 400,
+                                         'message': 'Invalid rsvp answer'}), 400)
+    
+    for meetup in MeetupModel.db:
+        if meetup["meetup_id"] == meetup_id:
+            return jsonify({
+                            'status': 200,
+                            'message': 'Responded successfully',
+                            'data': {
+                                    'meetup_id': meetup['meetup_id'],
+                                    'topic' : meetup['topic'],
+                                    "Happening On":meetup["happening_On"],
+                                    'Answer': answer
+                                            }
+                                    }), 200
+
