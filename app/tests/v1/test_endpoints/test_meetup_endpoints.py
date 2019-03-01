@@ -42,6 +42,11 @@ class TestMeetupEndpoints(unittest.TestCase):
         path = "/meetups/"
         path =path+str(meetup_id)+"/delete"
         return self.client.delete(path)
+    
+    def post_rsvp(self,meetup_id, data):
+        path = "/meetups/"
+        path = path + str(meetup_id) + "/rsvps"
+        return self.client.post(path,data=json.dumps(data),headers={},content_type="application/json")
 
     def test_good_add_meetup(self):
         meetup ={
@@ -139,6 +144,27 @@ class TestMeetupEndpoints(unittest.TestCase):
         meetup_one=self.delete_data(4)
         """Test  delete a meetup that doesnt exist"""
         self.assertEqual(meetup_one.status_code,404)
+    
+    def test_rsvp_meetup_present(self):
+        payload = {"answer":"Yes"}
+        rsvp = self.post_rsvp(1, payload)
+        self.assertEqual(rsvp.status_code,200)
+
+    def test_rsvp_meetup_absent(self):
+        payload = {"answer":"Yes"}
+        rsvp = self.post_rsvp(10, payload)
+        self.assertEqual(rsvp.status_code,404)
+
+    def test_rsvp_meetup_invalid_data(self):
+        payload = {"answer":"OP"}
+        rsvp = self.post_rsvp(1, payload)
+        self.assertEqual(rsvp.status_code,400)
+    
+    def test_rsvp_meetup_blank_data(self):
+        payload = {"answer":""}
+        rsvp = self.post_rsvp(1, payload)
+        self.assertEqual(rsvp.status_code,400)
+
     
 
 if __name__ == "__main__":

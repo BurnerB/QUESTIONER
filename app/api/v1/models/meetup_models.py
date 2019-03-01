@@ -36,3 +36,17 @@ class Meetup(object):
             self.db.remove(Meetup[0])
             return True
         return False
+    
+class RSVP(object):
+    def __init__(self):
+        self.rsvps = []
+
+    def addRsvp(self,answer):
+        payload = {
+                    "answer":"Yes"
+                }
+        rsvps=self.rsvps.append(payload)
+        return payload
+
+    def get_all_rsvp(self):
+        return self.rsvps
