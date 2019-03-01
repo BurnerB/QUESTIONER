@@ -18,6 +18,8 @@
 | PATCH  |`/api/v1/questions/<questions-id/downvote` |vote on a meetup question|
 
 ## Getting Started
+
+Visit the UI at https://burnerb.github.io/QUESTIONER/UI/Templates/
 #### Setting up your system
 
 Make sure you already have Python3, Pip and Virtualenv installed in your system..
