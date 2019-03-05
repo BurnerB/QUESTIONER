@@ -1,42 +1,26 @@
-import unittest
 import json
-import flask_jwt_extended
 from app import create_app
-from app.api.v1.models.questions_models import Question
-QuestionModel =Question()
+
+from app.tests.v1.base_test import TestBaseTest as BaseTest
 
 
-class TestMeetupEndpoints(unittest.TestCase):
-    """The set up method is called for each test method"""
-    """This is the same for teardown"""
-    def setUp(self):
-        """Performs variable definition and app initialization"""
-        self.app = create_app("testing")
-        self.client = self.app.test_client()
-        self.question = {
-                        "meetup_id" : 1,
-                        "title ": "why?",
-                        "body" : "Why so many questions?"
-        } 
-    
-    def tearDown(self):
-        QuestionModel.question_list =[]
-
+class TestMeetupEndpoints(BaseTest):
+        
     def post_data(self,data,path="/questions"):
-        return self.client.post(path,data=json.dumps(data),headers={},content_type="application/json")
+        return self.client.post(path,data=json.dumps(data),headers=dict(Authorization="Bearer "+ self.login_user()),content_type="application/json")
 
     def get_specific_data(self,question_id):
         path = "/meetups/"
         path += str(question_id)
-        return self.client.get(path)
+        return self.client.get(path, headers=dict(Authorization="Bearer "+ self.login_user()))
     
-    def get_patch_upvote(self, question_id):
+    def patch_upvote(self, question_id):
         path='/questions/'+str(question_id)+"/upvote"
-        return self.client.get(path)
+        return self.client.patch(path,headers=dict(Authorization="Bearer "+ self.login_user()))
     
-    def get_patch_downvote(self, question_id):
+    def patch_downvote(self, question_id):
         path='/questions/'+str(question_id)+"/downvote"
-        return self.client.get(path)
+        return self.client.patch(path,headers=dict(Authorization="Bearer "+ self.login_user()))
     
     def test_good_ask_question(self):
         question ={
@@ -103,30 +87,32 @@ class TestMeetupEndpoints(unittest.TestCase):
         """Test get question if present"""
         self.assertEqual(response.status_code,200)
 
-    # def test_get_upcoming_meetups_if_absent(self):
-    #     question_one = self.get_specific_data(2)
-    #     """Test get upcoming meetups if meetups absent"""
-    #     self.assertEqual(question_one.status_code,404)
-    
-    # def test_upvote_question_present(self):
-    #     response = self.get_patch_upvote(1)
-    #     """Test upvote a question that is present"""
-    #     self.assertEqual(response.status_code,200)
+    def test_get_upcoming_meetups_if_absent(self):
+        question_one = self.get_specific_data(3)
+        """Test get upcoming meetups if meetups absent"""
+        self.assertEqual(question_one.status_code,404)
     
     # def test_downvote_question_present(self):
-    #     response = self.get_patch_downvote(1)
+    #     self.create_question()
+    #     response = self.patch_downvote(1)
     #     """Test downvote a question that is present"""
     #     self.assertEqual(response.status_code,200)
     
-    # def test_upvote_question_absent(self):
-    #     response = self.get_patch_upvote(5)
-    #     """Test upvote a question that is absent"""
-    #     self.assertEqual(response.status_code,404)
+    def test_upvote_question_present(self):
+        self.create_question()
+        response = self.patch_upvote(1)
+        """Test upvote a question that is present"""
+        self.assertEqual(response.status_code,200)
+    
+    def test_upvote_question_absent(self):
+        response = self.patch_upvote(5)
+        """Test upvote a question that is absent"""
+        self.assertEqual(response.status_code,404)
 
-    # def test_downvote_question_absent(self):
-    #     response = self.get_patch_downvote(5)
-    #     """Test downvote a question that is absent"""
-    #     self.assertEqual(response.status_code,404)
+    def test_downvote_question_absent(self):
+        response = self.patch_downvote(5)
+        """Test downvote a question that is absent"""
+        self.assertEqual(response.status_code,404)
 
 
     

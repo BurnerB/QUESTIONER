@@ -1,14 +1,9 @@
-import unittest
 import json
 from app import create_app
 
-class TestUserEndpoints(unittest.TestCase):
-    """The set up method is called for each test method"""
-    """This is the same for teardown"""
-    def setUp(self):
-        """Performs variable definition and app initialization"""
-        self.app = create_app("testing")
-        self.client = self.app.test_client()
+from app.tests.v1.base_test import TestBaseTest as BaseTest
+
+class TestUserEndpoints(BaseTest):
 
     def post_data_signup(self,data,path="/api/v1/user/auth/signup"):
         return self.client.post(path,data=json.dumps(data),headers={},content_type="application/json")
@@ -20,12 +15,13 @@ class TestUserEndpoints(unittest.TestCase):
         user ={
 	         "firstname":"John",
 	         "lastname":"Doe",
-	         "email":"johndoe@gmail.com",
-	         "phone_number":"0727988632",
+	         "email":"Johndoe@gmail.com",
+	         "phone_number":"0729800000",
 	         "username":"johny",
-	         "password":"baba123",
-	         "confirmpassword":"baba123"
-}
+	         "password":"baba1234",
+	         "confirmpassword":"baba1234"
+             }
+
         """test good user signup """
         response = self.post_data_signup(user)
         self.assertEqual(response.status_code,201)
@@ -145,6 +141,12 @@ class TestUserEndpoints(unittest.TestCase):
         """test confirm password not match password  """
         response = self.post_data_signup(user)
         self.assertEqual(response.status_code,400)
+
+    def test_good_signin(self):
+        """test good signin """
+        response = self.post_data_login(self.login)
+        self.assertEqual(response.status_code, 200)
+
 
 
     def test_empty_username_log_in(self):

@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, request ,jsonify ,make_response
 import datetime
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from werkzeug.exceptions import BadRequest, NotFound, Unauthorized, Forbidden, MethodNotAllowed
 
 from app.api.v1.utils.validators import Validators
 
@@ -15,7 +16,7 @@ version_1 = Blueprint("Meetups" ,__name__)
 
 
 @version_1.route("/meetups",methods=["POST"])
-# @jwt_required
+@jwt_required
 def create_meetup():
     try:
         data=request.get_json()
@@ -27,66 +28,66 @@ def create_meetup():
     
         """checks if any key missing"""
     except Exception as e:
-            return jsonify({"status":400,
-                            "error" :"Invalid {} key field".format(e)
-                                    }),400
+                raise BadRequest("{} is lacking. It is a required field".format(e))
 
     if not Validators.check_topic(topic):
-        return jsonify ({"status":400,
-                            "error":"Topic contains invalid characters"}),400
+        raise BadRequest("Topic contains invalid characters")
     
     if not Validators.check_location(location):
-        return jsonify ({"status":400,
-                        "error":"Location contains invalid characters"}),400
+        raise BadRequest("Location contains invalid characters")
 
 
     try:
         datetime.datetime.strptime(happening_On, '%d/%m/%Y')
     except Exception as e:
-        return jsonify({"status":400,
-                        "error" :"Incorrect data format, should be DD/MM/YYYY"
-                                }),400
+        raise BadRequest("Incorrect data format, should be DD/MM/YYYY")
     
     # if not Validators.check_hapenningOn_date(happening_On):
-    #     return jsonify ({"status":400,
-    #                     "error":"Date has already passed"}),400
+    #     raise BadRequest("Date entered has already passed")
+    #                    
     
     if Validators.check_image == None:
-        return jsonify ({"status":400,
-                        "error":"Unsupported image type"}),400
+        raise BadRequest("Unsupported image type")
+        
     
     if len(topic)== 0 or len(location) == 0 or len(happening_On) == 0 or len(tags)== 0 or len(image) == 0:
-        return jsonify({"message":"cannot be an empty string"}),400
+        raise BadRequest("cannot be an empty string")
 
-    MeetupModel.create_meetup(topic, location, happening_On ,tags ,image)
-    return jsonify({"message":"Successful"}),201
+    meetup = MeetupModel.create_meetup(topic, location, happening_On ,tags ,image)
+    return jsonify({"message":"Successfully Created Meetup",
+                    "data":data}),201
 
 @version_1.route("/meetups/upcoming", methods=["GET"])
+@jwt_required
 def get_upcoming_meetups():
     """Method that gets all meetups"""
     if MeetupModel.db == []:
-        return jsonify({"Message":"Meetup list is empty"}),404
+        raise NotFound("Meetup list is empty")
+        
     response = MeetupModel.get_upcoming_meetups()
     return jsonify({"Meetups":response}),200
 
 
 @version_1.route('/meetups/<int:meetup_id>',methods=['GET'])
+@jwt_required
 def get_specific_meetup(meetup_id):
     meetup = MeetupModel.get_meetup(meetup_id)
-    if meetup == None:
-        return jsonify({"message":"meetup doesn't exist"}),404
+    if meetup == False:
+        raise NotFound("meetup doesn't exist")
     return jsonify({'Question':meetup}),200
 
 @version_1.route('/meetups/<int:meetup_id>/delete',methods=['DELETE'])
+@jwt_required
 def delete_meetup(meetup_id):
     meetup = MeetupModel.get_meetup(meetup_id)
     if meetup == None:
-        return jsonify({"message":"meetup doesn't exist"}),404
+        raise NotFound("meetup doesn't exist")
     if MeetupModel.delete_meetup(meetup_id) == False:
-        return jsonify({"message":"meetup doesn't exist"}),404
+        raise NotFound("meetup doesn't exist")
     return jsonify({"message":"Successfully deleted meetup"}),200
 
 @version_1.route('/meetups/<int:meetup_id>/rsvps', methods=['POST'])
+@jwt_required
 def add_rsvp(meetup_id):
 
     try:
@@ -94,19 +95,16 @@ def add_rsvp(meetup_id):
         answer = data["answer"]
          
     except Exception as e:
-        return jsonify({"status":201,
-        "error" :"Invalid {} key field".format(e)
-        }),400
+        raise BadRequest("{} is lacking. It is a required field".format(e))
 
     """Check if the meetup exists"""
     if not MeetupModel.get_meetup(meetup_id):
-        return jsonify({"status":404,
-                        "Message":"The meetup does not exist"}),404
+        raise NotFound("The meetup does not exist")
     
     responses = ["Yes","No","Maybe"]
     if answer not in responses:
-        return make_response(jsonify({'status': 400,
-                                         'message': 'Invalid rsvp answer'}), 400)
+        raise BadRequest('Invalid rsvp answer')
+       
     
     for meetup in MeetupModel.db:
         if meetup["meetup_id"] == meetup_id:
