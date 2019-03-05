@@ -1,55 +1,34 @@
-import unittest
 import json
-import flask_jwt_extended
 from app import create_app
-from app.api.v1.models.meetup_models import Meetup
-# from app.api.v1.endpoints.meetup_endpoints
-# from app.api.v1.endpoints.user_endpoints import access_token
-MeetupModel =Meetup()
 
+from app.tests.v1.base_test import TestBaseTest as BaseTest
 
-class TestMeetupEndpoints(unittest.TestCase):
-    """The set up method is called for each test method"""
-    """This is the same for teardown"""
-    def setUp(self):
-        """Performs variable definition and app initialization"""
-        self.app = create_app("testing")
-        self.client = self.app.test_client()
-        self.meetup ={
-                    "topic":"Bio",
-                    "location":"Nairobi",
-                    "happening_On": "27/05/2019",
-                    "tags" : "data science",
-                    "image" : "an_image.png"
-        }
-            
-    
-    def tearDown(self):
-        MeetupModel.db =[]
+class TestMeetup(BaseTest):
+    """ Test class for meetups."""
 
     def post_data(self,data,path="/meetups"):
-        return self.client.post(path,data=json.dumps(data),headers={},content_type="application/json")
+        return self.client.post(path,data=json.dumps(data), headers=dict(Authorization="Bearer "+ self.login_user()),content_type="application/json")
 
     def get_data(self,path='/meetups/upcoming'):
-        return self.client.get(path)
+        return self.client.get(path,headers=dict(Authorization="Bearer "+ self.login_user()))
     
     def get_specific_data(self, meetup_id):
         path = "/meetups/"
-        path += str(meetup_id)
-        return self.client.get(path)
+        path = path + str(meetup_id)
+        return self.client.get(path,headers=dict(Authorization="Bearer "+ self.login_user()))
 
     def delete_data(self,meetup_id):
         path = "/meetups/"
         path =path+str(meetup_id)+"/delete"
-        return self.client.delete(path)
+        return self.client.delete(path,headers=dict(Authorization="Bearer "+ self.login_user()))
     
     def post_rsvp(self,meetup_id, data):
         path = "/meetups/"
         path = path + str(meetup_id) + "/rsvps"
-        return self.client.post(path,data=json.dumps(data),headers={},content_type="application/json")
+        return self.client.post(path,data=json.dumps(data), headers=dict(Authorization="Bearer "+ self.login_user()),content_type="application/json")
 
     def test_good_add_meetup(self):
-        meetup ={
+        meetup1 ={
                     "topic":"Bio",
                     "location":"Nairobi",
                     "happening_On": "27/7/2019",
@@ -57,7 +36,7 @@ class TestMeetupEndpoints(unittest.TestCase):
                     "image" : "an_image.png"
         }
         """test good meetup data"""
-        response = self.post_data(meetup)
+        response = self.post_data(meetup1)
         self.assertEqual(response.status_code,201)
 
     def test_no_topic_meetup(self):
@@ -122,15 +101,16 @@ class TestMeetupEndpoints(unittest.TestCase):
         self.assertEqual(response.status_code,400)
 
     def test_get_upcoming_meetups_if_present(self):
-        response = self.get_specific_data(1)
+        response = self.get_data()
         self.assertEqual(response.status_code,200)
 
-    def test_get_upcoming_meetups_if_absent(self):
-        meetup_one = self.get_data()
-        """Test get upcoming meetups if meetups absent"""
-        self.assertEqual(meetup_one.status_code,404)
+    # def test_get_upcoming_meetups_if_absent(self):
+    #     meetup_one = self.get_data()
+    #     """Test get upcoming meetups if meetups absent"""
+    #     self.assertEqual(meetup_one.status_code,404)
 
     def test_get_meetup_present(self):
+        self.create_meetup()
         meetup_one = self.get_specific_data(1)
         """Test get a specific meetup when present"""
         self.assertEqual(meetup_one.status_code,200)
