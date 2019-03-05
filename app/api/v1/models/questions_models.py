@@ -8,6 +8,7 @@ class Question():
     def __init__(self):
         self.question_list = []
         self.users = []
+        self.questions = []
     
     def ask_question(self, meetup_id, title, body,):
         """ Adds a new question to the all_question_records list """
@@ -32,6 +33,7 @@ class Question():
             question = question[0]
             question['votes'] = question['votes'] + 1
             self.users.append(question["createdBy"])
+            self.questions.append(question["question_id"])
             return question
     
     def downvote(self, question_id):
@@ -40,6 +42,7 @@ class Question():
             question = question[0]
             question['votes'] = question['votes'] - 1
             self.users.append(question["createdBy"])
+            self.questions.append(question["question_id"])
             return question
     
     def get_question_by_id(self, question_id):
