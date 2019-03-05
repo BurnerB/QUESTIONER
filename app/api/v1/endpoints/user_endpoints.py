@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, request ,jsonify ,make_response
 import datetime
 from flask_jwt_extended import create_access_token
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.exceptions import BadRequest, NotFound, Unauthorized, Forbidden, MethodNotAllowed
 
 
 """ local imports"""
@@ -30,59 +31,55 @@ def create_user():
         
                 """checks if any key missing"""
         except Exception as e:
-                return jsonify({"status":400,
-                        "error" :"Invalid {} key field".format(e)
-                                }),400
+                raise BadRequest("{} is lacking. It is a required field".format(e))
+                                 
         
         """Check if firstname is valid"""
         if not Validate.check_names(firstname):
-                return jsonify({"status":400,
-                        "error" :"Invalid firstname field"
-                        }),400
+                raise BadRequest("Invalid firstname field")
+                
         
         """Check if lastname is valid"""
         if not Validate.check_names(lastname):
-                return jsonify({"status":400,
-                        "error" :"Invalid lastname field"
-                        }),400
+                raise BadRequest("Invalid lastname field")
+
         
         """Check if email format is valid"""
         if not Validate.valid_email(email):
-                return jsonify({"status":400,
-                        "error" :"Invalid Email field"
-                        }),400
+                raise BadRequest("Invalid Email field")
+
         
         """Check if phone_number format is valid"""
         if not Validate.valid_phone_number(phone_number):
-                return jsonify({"status":400,
-                                "error" :"Invalid phone_number"
-                                }),400
+                raise BadRequest("Invalid phone_number field")
+
+                               
         
         """Check if username format is valid"""
         if not Validate.valid_username(username):
-                return jsonify({"status":400,
-                        "error" :"Invalid username field"
-                        }),400
-        
+                raise BadRequest("Invalid username field")
+                
         """Check if password format is valid"""
         if not Validate.valid_password(password):
-                return jsonify({"status":400,
-                        "error" :"Invalid password field"
-                        }),400  
-        
+                raise BadRequest("Invalid password field")
+                
         """ Checks if email already used to register """
         if Validate.check_email_exists(email):
-                return jsonify({"Error":"The email already exists for an account,log in"}),400
+                raise BadRequest("The email already exists for an account,log in")
+        
         
         """ Checks if username already used to register """
         if Validate.check_username_exists(username):
-                return jsonify({"Error":"The username already exists for an account,log in"}),400
+                raise BadRequest("The username already exists for an account,log in")
                 
         
         """Check if any string value is empty"""
+        
         if len(firstname) ==0 or len(lastname) == 0 or len(email) == 0 or len(phone_number) == 0 or len(username) == 0 or len(password) == 0 or len(confirmpassword) == 0 :
-            return make_response(jsonify({"status":400,
-                                "error":"Field cant be empty"}),400)
+                raise BadRequest("Field can't be empty")
+   
+                
+
         
         """Check if password matches with confirm password"""
         if password == confirmpassword:
@@ -92,7 +89,7 @@ def create_user():
                 data = User.create_user(firstname, lastname, email ,phone_number ,username ,password ,confirmpassword)
                 return jsonify({"message":"successful regisration"}), 201
         else:
-                return jsonify({"error": "Passwords don't match"}), 400
+                raise BadRequest("Passwords don't match")
 
 @version_1.route("/api/v1/user/auth/signin", methods=["POST"])
 def signIn_user():
@@ -104,26 +101,20 @@ def signIn_user():
         
                 """checks if any key missing """
         except Exception as e:
-                return jsonify({"status":400,
-                        "error" :"Invalid {} key field".format(e)
-                                }),400
+                raise BadRequest("{} is lacking. It is a required field".format(e))
 
         """method checks if any key value is empty"""
+        
         if len(username) == 0 or len(password) == 0:
-                return make_response(jsonify({"status":400,
-                                        "error":"Field cant be empty"}),400)
+                raise BadRequest("Field cant be empty")
         
         """Check if username format is valid"""
         if not Validate.valid_username(username):
-                return jsonify({"status":400,
-                        "error" :"Invalid username field"
-                        }),400
+                raise BadRequest("Invalid username field")
         
         """ Checks if username exists"""
         if not Validate.check_username_exists(username):
-                return jsonify({"status":404,
-                                "error" :"Username does not exist"
-                                }),404
+                raise NotFound("Username does not exist")
 
 
         """ create token"""
@@ -138,8 +129,7 @@ def signIn_user():
                                               "message":"User logged in successfully",
                                               "access_token": access_token}),200)
                 
-        return make_response(jsonify({"status":401,
-                                        "error":" Password not accepted"}),401)
+        raise Unauthorized(" wrong Password")
 
 
                 
