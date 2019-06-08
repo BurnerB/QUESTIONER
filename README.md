@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/BurnerB/QUESTIONER.svg?branch=develop)](https://travis-ci.org/BurnerB/QUESTIONER)
 [![Coverage Status](https://coveralls.io/repos/github/BurnerB/QUESTIONER/badge.svg?branch=develop)](https://coveralls.io/github/BurnerB/QUESTIONER?branch=develop)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9ecce04a85e846039c06d911e9c759be)](https://www.codacy.com/app/BurnerB/QUESTIONER?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BurnerB/QUESTIONER&amp;utm_campaign=Badge_Grade)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a94f1aa880c459d4c88b/maintainability)](https://codeclimate.com/github/BurnerB/QUESTIONER/maintainability)
 
 ### Endpoints covered
 | Method        | Endpoint                 | Description|
